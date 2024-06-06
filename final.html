@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            background-image:url(https://img.freepik.com/free-photo/gradient-blue-abstract-background-smooth-dark-blue-with-black-vignette-studio_1258-80002.jpg?size=626&ext=jpg&ga=GA1.1.1224184972.1712188800&semt=ais);
+            background-size: cover;
+            margin: 30px;
+            padding: 20px;
+        }
+        .event {
+            width: 300px; /* Set a fixed width for event cards */
+            height: 300px; /* Set a fixed height for event cards */
+            display: inline-block; /* Display events horizontally */
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-right: 20px; /* Add margin between events */
+            margin-bottom: 20px;
+            padding: 20px;
+            vertical-align: top; /* Align events to the top */
+            overflow: hidden;
+        }
+        .event img {
+            width: 100%; /* Ensure image fills the container */
+            height: 200px; /* Set a fixed height for event images */
+            object-fit: cover; /* Cover the container with the image */
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .event h2 {
+            font-size: 20px;
+            margin: 0;
+            margin-bottom: 10px;
+        }
+        .event p {
+            margin: 0;
+            color: #555555;
+        }
+        .register-button {
+            background-color: #0074D9;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            display: block; /* Display button as block element */
+            margin-top: 10px; /* Add margin to separate button from event details */
+        }
+        .register-button:hover {
+            background-color: #005689;
+        } 
+        .main{
+        height:30vh;
+        width:100%;  
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        text-align:center;
+        }
+        h1{
+        text-align:center;
+        text-transform: uppercase;
+        color: #F1FAEE; 
+        font-size: 4rem;
+        }
+
+        .roller{
+        height: 4.125rem;
+        line-height: 4rem;
+        position: relative;
+        overflow: hidden; 
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        color: #4887e0;
+        }
+
+
+        #spare-time{
+        font-size: 1rem;
+        font-style: italic;
+        letter-spacing: 1rem;
+        margin-top: 0;
+        color: #A8DADC;
+        
+        }
+
+        .roller #rolltext {
+        position: absolute;
+        top: 0;
+        animation: slide 5s infinite;  
+        }
+
+        @keyframes slide {
+        0%{
+            top:0;
+        }
+        25%{
+            top: -4rem;    
+        }
+        50%{
+            top: -8rem;
+        }
+        72.5%{
+            top: -12.25rem;
+        }
+        }
+
+        @media screen and (max-width: 600px){
+        h1{
+        text-align:center;
+        text-transform: uppercase;
+        color: #F1FAEE; 
+        font-size: 2.125rem;
+        }
+        
+        .roller{
+        height: 2.6rem; 
+        line-height: 2.125rem;  
+        }
+        
+        #spare-time {
+            font-size: 1rem;
+            letter-spacing: 0.1rem;
+        }
+        
+        .roller #rolltext {  
+        animation: slide-mob 5s infinite;  
+        }
+        
+        @keyframes slide-mob {
+        0%{
+            top:0;
+        }
+        25%{
+            top: -2.125rem;    
+        }
+        50%{
+            top: -4.25rem;
+        }
+        72.5%{
+            top: -6.375rem;
+        }
+        }
+}
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h1>UPCOMING EVENTS: <div class="roller">
+          <span id="rolltext">Explore<br/>
+          Embrace<br/>
+          Excel<br/>
+          <span id="spare-time">"Elevate Your Skills: Register Now!"</span><br/>
+          </div>
+          </h1>
+          
+        </div>
+    <div id="eventContainer"></div>
+    <button onclick="clearEventData()">Clear Event Data</button>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const eventContainer = document.getElementById("eventContainer");
+            const allEventData = JSON.parse(localStorage.getItem('allEventData')) || [];
+
+            allEventData.forEach(event => {
+                const eventDiv = document.createElement("div");
+                eventDiv.classList.add("event");
+
+                const eventImg = document.createElement("img");
+                eventImg.src = event.image;
+                eventImg.alt = event.name;
+
+                const eventName = document.createElement("h2");
+                eventName.textContent = event.name;
+
+                const eventDate = document.createElement("p");
+                eventDate.textContent = "Date: " + event.date;
+
+                const registerButton = document.createElement("button");
+                registerButton.classList.add("register-button");
+                registerButton.textContent = "Register";
+                registerButton.addEventListener("click", function() {
+                    register(event.name);
+                });
+
+                eventDiv.appendChild(eventImg);
+                eventDiv.appendChild(eventName);
+                eventDiv.appendChild(eventDate);
+                eventDiv.appendChild(registerButton);
+                eventContainer.appendChild(eventDiv);
+            });
+        });
+
+        function register(eventName) {
+            console.log(`Registered for ${eventName}`);
+            // You can handle the registration logic
+        }
+        function clearEventData() {
+            localStorage.removeItem('allEventData');
+            const eventContainer = document.getElementById("eventContainer");
+            eventContainer.innerHTML = ''; // Clear the HTML content inside the eventContainer
+        }
+    </script>
+</body>
+</html>
